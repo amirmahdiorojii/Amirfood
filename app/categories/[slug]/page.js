@@ -4,12 +4,14 @@ import CategoryDetailsPage from "@/components/templates/CategoryDetailsPage";
 
 import {
   getCategoryBySlug,
-  getCategories,
   getFoodsByCategory,
 } from "@/services/server/food.service";
 
+// ✅ کاملاً داینامیک (مناسب API + جلوگیری از build error)
+export const dynamic = "force-dynamic";
+
 export default async function Page({ params }) {
-  const { slug } = await params;
+  const { slug } = params;
 
   const category = await getCategoryBySlug(slug);
 
@@ -25,12 +27,4 @@ export default async function Page({ params }) {
       foods={foods}
     />
   );
-}
-
-export async function generateStaticParams() {
-  const categories = await getCategories();
-
-  return categories.map((category) => ({
-    slug: category.slug,
-  }));
 }

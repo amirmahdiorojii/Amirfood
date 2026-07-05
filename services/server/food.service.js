@@ -8,7 +8,7 @@ const API_URL =
 async function fetchData() {
   try {
     const res = await fetch(API_URL, {
-      cache: "no-store",
+      next: { revalidate: 60 }, // 👈 بهترین حالت
     });
 
     if (!res.ok) {
@@ -18,10 +18,9 @@ async function fetchData() {
     return await res.json();
   } catch (err) {
     console.error("API fetch error:", err);
-    return []; // 👈 prevent build crash
+    return [];
   }
 }
-
 export async function getFoods() {
   return await fetchData();
 }
@@ -52,9 +51,7 @@ export async function getCategories() {
     }
   });
 
-  return [...map.values()].sort((a, b) =>
-    a.name.localeCompare(b.name)
-  );
+  return [...map.values()].sort((a, b) => a.name.localeCompare(b.name));
 }
 
 export async function getFoodById(id) {
@@ -66,7 +63,6 @@ export async function getFoodsByCategory(slug) {
   const foods = await getFoods();
 
   return foods.filter(
-    (food) =>
-      slugify(getDetailValue(food.details, "Cuisine") || "") === slug
+    (food) => slugify(getDetailValue(food.details, "Cuisine") || "") === slug,
   );
 }
