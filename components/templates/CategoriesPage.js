@@ -1,5 +1,5 @@
 import PageHeader from "@/components/module/PageHeader";
-import CategoriesGrid from "@/components/module/Categories/CategoriesGrid";
+import CategoriesGrid from "@/components/module/Categories/CategoryGrid";
 
 function CategoriesPage({ categories }) {
   return (
